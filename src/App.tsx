@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import babyNamesData from "./babyNamesData.json"
-import Child from "./Component/child"
 
 let initialData = babyNamesData
 const localValue:any = localStorage.getItem("favourites")
