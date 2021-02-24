@@ -49,7 +49,7 @@ function App() {
 
   let sortedNames = initialData.sort((a, b) => a.name.localeCompare(b.name))
   let filteredNames = sortedNames.filter((item) => {
-    return (item.name.toLowerCase().startsWith(inputSearch.toLowerCase()) && radio!== "all"? item.sex === radio: item.sex === "m"||"f"  ) //why doesnt this work - input doesnt filter
+    return (item.name.toLowerCase().startsWith(inputSearch.toLowerCase()) && (radio!== "all"? item.sex === radio: item.sex === "m"||"f")  ) //why doesnt this work - input doesnt filter
   })
   let mappedNames = filteredNames.map(nameMapper)
   let mappedFavourites = favourites.map(nameMapper)
