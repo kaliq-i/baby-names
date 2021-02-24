@@ -1,16 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import babyNamesData from "./babyNamesData.json"
 import Child from "./Component/child"
 
-const initialData = babyNamesData
+let initialData = babyNamesData
+const localValue:any = localStorage.getItem("favourites")
+const parsedLocal = JSON.parse(localValue)
+
+const localInitial:any = localStorage.getItem("initial")
+const parsedInitial = JSON.parse(localInitial)
 
 function App() {
 
   const [inputSearch, setInputSearch] = useState("")
   const [radio,setRadio] = useState("all")
-  const [favourites, setFavourites] = useState<any>([])
-
+  let [favourites, setFavourites] = useState<any>([])
+  
+  useEffect(() => {
+    if (parsedLocal) {
+    setFavourites([...parsedLocal])
+    }
+    if (parsedInitial) {
+      initialData = [...parsedInitial]
+    }
+  }, []);
   //currently rewriting the add or remove function: my thoughts
   // Have initialData in the state
   // then create variable called filteredarray which filters initialdata for elements whose property DO NOT match paramenter
@@ -21,6 +34,7 @@ function App() {
   ///more thinking
 
   const addOrRemove = (id: number) => {
+    // PROBLEM - AFTER LOCAL STORAGE IF STATEMENT IS WRONG BECAUSE IT EXISTS
     // if it exists in initial data - remove from it and add to favourites
     const arrayWithSearched = initialData.filter((e) => e.id === id)
     const arrayWithSearchedFavourite = favourites.filter((e: any) => e.id === id)
@@ -30,6 +44,8 @@ function App() {
       const objectToBePushed = arrayWithSearched[0]
       newFavourites.push(objectToBePushed)
       setFavourites([...newFavourites])
+      localStorage.setItem("favourites",JSON.stringify(newFavourites))
+      localStorage.setItem("initial",JSON.stringify(initialData))
     }
     else {
       // else remove from favourites and add from initial data  
@@ -37,6 +53,8 @@ function App() {
       const newFavourites = [...favourites]
       newFavourites.splice(newFavourites.findIndex(item => item.id === id), 1)
       setFavourites([...newFavourites])
+      localStorage.setItem("favourites",JSON.stringify(newFavourites))
+      localStorage.setItem("initial",JSON.stringify(initialData))
 
     }
 
